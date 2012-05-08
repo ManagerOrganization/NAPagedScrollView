@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <NAPagedScrollView/NAPagedScrollView.h>
 
-@interface NAPagedScrollViewController : UIViewController
+@interface NAPagedScrollViewController : UIViewController <NAPagedScrollViewDelegate, NAPagedScrollViewDataSource>
+
+@property (nonatomic, strong) NAPagedScrollView *scrollView;
 
 @end

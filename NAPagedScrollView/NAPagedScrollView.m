@@ -21,6 +21,7 @@
 - (void)_cleanupPages;
 - (void)_enquePage:(NAPagedView*)page withIdentifier:(NSString*)reuseIdentifier;
 - (NSMutableSet*)_reuseablePageSetForIdentifier:(NSString*)reuseIdentifier;
+- (CGRect)_frameForPageAtIndex:(NSUInteger)index; 
 
 @end
 
@@ -61,11 +62,56 @@ return [self initWithFrame:CGRectZero];
   _visiblePages = [[NSMutableSet alloc] init];
   self.backgroundColor = [UIColor whiteColor];
   
+  [self setCanCancelContentTouches:NO];
+  self.indicatorStyle = UIScrollViewIndicatorStyleBlack;
+  self.clipsToBounds = YES;        // default is NO, we want to restrict drawing within our scrollview
+  self.scrollEnabled = YES;
+  self.pagingEnabled = YES;
+  self.showsVerticalScrollIndicator = NO;
+  self.showsHorizontalScrollIndicator = NO;
+  self.contentSize = [self _contentSizeForPagingScrollView];
+  self.delegate = self;
+  
 }
+
+
+-(void)layoutSubviews
+{
+  [super layoutSubviews];
+  [self _tilePages];
+}
+
 
 - (void)_tilePages
 {
-
+  CGRect visibleBounds = self.bounds;
+  int firstNeededPageIndex = floorf(CGRectGetMinX(visibleBounds) / CGRectGetWidth(visibleBounds));
+  int lastNeededPageIndex  = floorf((CGRectGetMaxX(visibleBounds)-1) / CGRectGetWidth(visibleBounds));
+  firstNeededPageIndex = MAX(firstNeededPageIndex, 0);
+  lastNeededPageIndex  = MIN(lastNeededPageIndex, [self pageCount] - 1);
+  
+  NSMutableArray *pagesToRemove = [NSMutableArray array];
+  
+  for (NAPagedView *page in _visiblePages) {
+    if (page.tag < firstNeededPageIndex || page.tag > lastNeededPageIndex) {
+      [pagesToRemove addObject:page];
+      [self _enquePage:page withIdentifier:page.reuseIdentifier];
+    }
+  }
+  
+  for (NAPagedView *page in pagesToRemove) {
+    [_visiblePages removeObject:page];
+    [page removeFromSuperview];
+  }
+  
+  for (int index = firstNeededPageIndex; index <= lastNeededPageIndex; index++) {
+    if (![self isDisplayingPageForIndex:index]) {
+      NAPagedView *page = [_dataSource scrollView:self pageForItemAtIndex:index]; 
+      page.frame = [self _frameForPageAtIndex:index];
+      [self addSubview:page];
+      [_visiblePages addObject:page];
+    }
+  }
 }
 
 -(void)_cleanupPages{
@@ -121,15 +167,12 @@ return [self initWithFrame:CGRectZero];
   return page;
 }
 
-
-
 - (CGSize)_contentSizeForPagingScrollView 
 {
-
   return CGSizeMake(self.bounds.size.width * [self pageCount], self.bounds.size.height);
 }
 
-- (CGRect)frameForPageAtIndex:(NSUInteger)index 
+- (CGRect)_frameForPageAtIndex:(NSUInteger)index 
 {
   CGRect bounds = self.bounds;
   CGRect pageFrame = bounds;
@@ -138,11 +181,20 @@ return [self initWithFrame:CGRectZero];
 }
 
 - (NSUInteger)pageCount {
-  static NSUInteger __count = NSNotFound;  // only count the images once
-  if (__count == NSNotFound) {
-    __count = [_dataSource numberOfItemsInScrollView:self];
+//  static NSUInteger __count = NSNotFound;  // only count the images once
+//  if (__count == NSNotFound) {
+//    __count = [_dataSource numberOfItemsInScrollView:self];
+//  }
+  return [_dataSource numberOfItemsInScrollView:self];
+}
+
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+  if ([_pagedViewDelegate respondsToSelector:@selector(viewDidScroll:)]) {
+    [_pagedViewDelegate viewDidScroll:self];
   }
-  return __count;
+  [self _tilePages];
 }
 
 @end

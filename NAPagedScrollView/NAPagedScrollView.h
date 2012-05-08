@@ -23,9 +23,7 @@
 @property (nonatomic, unsafe_unretained) IBOutlet id <NAPagedScrollViewDelegate> pagedViewDelegate;
 
 - (NAPagedView *)dequeueReuseablePageWithIdentifier: (NSString *)identifier;
-- (CGRect) frameForPageAtIndex:(NSUInteger)index;
 - (BOOL) isDisplayingPageForIndex:(NSUInteger)index;
-
 
 @end
 
@@ -40,7 +38,7 @@
 
 @protocol NAPagedScrollViewDelegate <NSObject>
 @optional
-
+-(void)viewDidScroll:(NAPagedScrollView*)scrollView;
 @end
 
 

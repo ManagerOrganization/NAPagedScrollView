@@ -15,7 +15,7 @@
 
 + (NSString *)pageIdentifier;
 
-+ (id)cellForPagedScrollView:(NAPagedScrollView *)scrollView;
++ (id)viewForPagedScrollView:(NAPagedScrollView *)scrollView;
 - (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier;
 
 @property (nonatomic, strong) IBOutlet UIView *backgroundView; 

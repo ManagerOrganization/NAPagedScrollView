@@ -10,7 +10,7 @@
 #import <NAPagedScrollView/NAPagedScrollView.h>
 
 @interface NAPagedView() {
-  UIColor *_userContentViewBackgroundColor;
+
 }
 
 @end
@@ -27,7 +27,7 @@
   return NSStringFromClass(self);
 }
 
-+ (id)cellForPagedScrollView:(NAPagedScrollView *)scrollView
++ (id)viewviewForPagedScrollView:(NAPagedScrollView *)scrollView
 {
   NSString *pageIdentifier = [self pageIdentifier];
   NAPagedView *page = (NAPagedView *)[scrollView dequeueReuseablePageWithIdentifier:pageIdentifier];
@@ -54,7 +54,7 @@
     _contentView.backgroundColor = [UIColor whiteColor];
     [self addSubview:_contentView];
     
-    [_contentView addObserver:self forKeyPath:@"backgroundColor" options:NSKeyValueObservingOptionNew context:NULL];
+    
   }
   
   return self;
@@ -87,14 +87,6 @@
   [_contentView removeObserver:self forKeyPath:@"backgroundColor"];
 }
 
-#pragma mark - NSKeyValueObserving
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-  if (object == _contentView) {
-    _userContentViewBackgroundColor = [change objectForKey:@"new"];
-  }
-}
 
 #pragma mark - Layout
 
@@ -109,11 +101,8 @@
   
   [self sendSubviewToBack:_backgroundView];
   [self bringSubviewToFront:_contentView];
-
-  
-  _contentView.backgroundColor = _userContentViewBackgroundColor ? _userContentViewBackgroundColor : [UIColor whiteColor];
-    
-    _backgroundView.hidden = NO;
+   
+  _backgroundView.hidden = NO;
 }
 
 -(void)prepareForReuse

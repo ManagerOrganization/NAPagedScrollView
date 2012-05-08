@@ -10,4 +10,9 @@
 
 @interface NAPagedViewController : UIViewController
 
+@property (nonatomic, assign) NSUInteger index;
+@property (nonatomic, copy) NSString *reuseIdentifier;
+
+-(void)prepareForReuse;
+
 @end

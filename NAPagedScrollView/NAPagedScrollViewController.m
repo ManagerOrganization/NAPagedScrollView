@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Nordaaker Ltd. All rights reserved.
 //
 
-#import "NAPagedScrollViewController.h"
+#import <NAPagedScrollView/NAPagedScrollViewController.h>
 
 @interface NAPagedScrollViewController ()
 
@@ -14,30 +14,29 @@
 
 @implementation NAPagedScrollViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize scrollView =_scrollView;
+
+-(void)loadView
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+  [super loadView];
+  
+  _scrollView = [[NAPagedScrollView alloc] initWithFrame:self.view.bounds];
+  _scrollView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+  _scrollView.dataSource = self;
+  _scrollView.pagedViewDelegate = self;
+  self.view = _scrollView;
+  
 }
 
-- (void)viewDidLoad
+-(NSUInteger)numberOfItemsInScrollView:(NAPagedScrollView *)scrollView
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
+  return 0;
 }
 
-- (void)viewDidUnload
+-(NAPagedView *)scrollView:(NAPagedScrollView *)scrollView pageForItemAtIndex:(NSUInteger)index
 {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+return [NAPagedView viewForPagedScrollView:scrollView];
 }
 
 @end

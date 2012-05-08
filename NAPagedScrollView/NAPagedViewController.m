@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Nordaaker Ltd. All rights reserved.
 //
 
-#import "NAPagedViewController.h"
+#import <NAPagedScrollView/NAPagedViewController.h>
 
 @interface NAPagedViewController ()
 
@@ -14,30 +14,20 @@
 
 @implementation NAPagedViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize reuseIdentifier = _reuseIdentifier, index = _index;
+
+- (id)initWithNibName:(NSString *)nibNameOrNil andReuseIdentifier:(NSString*)reuseIdentifier
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super initWithNibName:nibNameOrNil bundle:nil];
     if (self) {
-        // Custom initialization
+      _reuseIdentifier = reuseIdentifier;
     }
     return self;
 }
 
-- (void)viewDidLoad
+- (void)prepareForReuse
 {
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+  
 }
 
 @end
