@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'NAPagedScrollView' target in the 'NAPagedScrollView' project
+//
+
+#ifdef __OBJC__
+  #import <Foundation/Foundation.h>
+#endif
