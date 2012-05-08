@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Nordaaker Ltd. All rights reserved.
 //
 
-#import "NAPagedScrollView.h"
+#import <NAPagedScrollView/NAPagedScrollView.h>
+#import <NAPagedScrollView/NAPagedView.h>
 
 @interface NAPagedScrollView() <UIScrollViewDelegate>
 {
@@ -14,19 +15,20 @@
   NSMutableSet *_visiblePages;
 }
 
-@end
 
 - (void)_sharedInitialization;
 - (void)_tilePages;
 - (void)_cleanupPages;
-- (void)_enquePage:(NAPageView*)page withIdentifier:(NSString*)reuseIdentifier;
+- (void)_enquePage:(NAPagedView*)page withIdentifier:(NSString*)reuseIdentifier;
 - (NSMutableSet*)_reuseablePageSetForIdentifier:(NSString*)reuseIdentifier;
 
 @end
 
 @implementation NAPagedScrollView
 
-@synthesize dataSource = _dataSource, pagedViewDelegate = _pagedViewDelegate
+@synthesize dataSource = _dataSource, pagedViewDelegate = _pagedViewDelegate, backgroundView = _backgroundView;
+
+@dynamic numberOfPages;
 
 #pragma mark - Initialization Methods
 
@@ -55,7 +57,7 @@ return [self initWithFrame:CGRectZero];
 
 - (void)_sharedInitialization
 {
-  _reusablePages = [[NSMutableDictionary alloc] init];
+  _reuseablePages = [[NSMutableDictionary alloc] init];
   _visiblePages = [[NSMutableSet alloc] init];
   self.backgroundColor = [UIColor whiteColor];
   
@@ -64,6 +66,10 @@ return [self initWithFrame:CGRectZero];
 - (void)_tilePages
 {
 
+}
+
+-(void)_cleanupPages{
+  
 }
 
 
@@ -80,35 +86,35 @@ return [self initWithFrame:CGRectZero];
 }
 
 
-- (void)_enquePage:(NAPageView*)page withIdentifier:(NSString*)reuseIdentifier
+- (void)_enquePage:(NAPagedView*)page withIdentifier:(NSString*)reuseIdentifier
 {
-  NSMutableSet *set = [self reuseablePageSetForIdentifier:reuseIdentifier];
+  NSMutableSet *set = [self _reuseablePageSetForIdentifier:reuseIdentifier];
   [set addObject:page];
   
 }
 
 - (NSMutableSet*)_reuseablePageSetForIdentifier:(NSString*)reuseIdentifier
 {
-  NSMutableSet *set = [_recycledPages objectForKey:reuseIdentifier];
+  NSMutableSet *set = [_reuseablePages objectForKey:reuseIdentifier];
   
   if (!set) {
-    [_recycledPages setObject:[NSMutableSet set] forKey:reuseIdentifier];
-    set = [_recycledPages objectForKey:reuseIdentifier];
+    [_reuseablePages setObject:[NSMutableSet set] forKey:reuseIdentifier];
+    set = [_reuseablePages objectForKey:reuseIdentifier];
   }
   
   return set;
 }
 
-- (TSPageViewController *)dequeueRecycledArticleWithIdentifier: (NSString *)identifier
+- (NAPagedView *)dequeueReuseablePageWithIdentifier: (NSString *)identifier;
 {
   if (!identifier) return nil;
   
-  NSMutableSet *set = [_recycledPages objectForKey:identifier];
+  NSMutableSet *set = [_reuseablePages objectForKey:identifier];
   
   if ([set count] == 0)
     return nil;
   
-  TSPageViewController *page = [set anyObject];
+  NAPagedView *page = [set anyObject];
   [set removeObject:page];
   [page prepareForReuse];
   
@@ -119,13 +125,13 @@ return [self initWithFrame:CGRectZero];
 
 - (CGSize)_contentSizeForPagingScrollView 
 {
-  CGRect bounds = _scrollView.bounds;
-  return CGSizeMake(bounds.size.width * [self pageCount], bounds.size.height);
+
+  return CGSizeMake(self.bounds.size.width * [self pageCount], self.bounds.size.height);
 }
 
 - (CGRect)frameForPageAtIndex:(NSUInteger)index 
 {
-  CGRect bounds = _scrollView.bounds;
+  CGRect bounds = self.bounds;
   CGRect pageFrame = bounds;
   pageFrame.origin.x = (bounds.size.width * index);
   return pageFrame;

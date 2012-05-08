@@ -8,15 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
-#import <NAPagedView.h>
+#import <NAPagedScrollView/NAPagedView.h>
 
 @protocol NAPagedScrollViewDataSource;
 @protocol NAPagedScrollViewDelegate;
 
 @interface NAPagedScrollView : UIScrollView
-{
-  
-}
+
 
 @property (nonatomic, readonly) NSUInteger numberOfPages;
 @property (nonatomic, strong) UIView *backgroundView;

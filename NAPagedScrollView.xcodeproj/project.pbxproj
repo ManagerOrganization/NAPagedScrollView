@@ -9,12 +9,13 @@
 /* Begin PBXBuildFile section */
 		DA6CA5EE1559340200EAC673 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA6CA5ED1559340200EAC673 /* Foundation.framework */; };
 		DA6CA5F41559340200EAC673 /* NAPagedScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6CA5F31559340200EAC673 /* NAPagedScrollView.m */; };
-		DA6CA5FF155934BB00EAC673 /* NAPagedScrollViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA5FD155934BB00EAC673 /* NAPagedScrollViewController.h */; };
+		DA6CA5FF155934BB00EAC673 /* NAPagedScrollViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA5FD155934BB00EAC673 /* NAPagedScrollViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6CA600155934BB00EAC673 /* NAPagedScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6CA5FE155934BB00EAC673 /* NAPagedScrollViewController.m */; };
-		DA6CA604155934D800EAC673 /* NAPagedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA602155934D700EAC673 /* NAPagedViewController.h */; };
+		DA6CA604155934D800EAC673 /* NAPagedViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA602155934D700EAC673 /* NAPagedViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6CA605155934D800EAC673 /* NAPagedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6CA603155934D700EAC673 /* NAPagedViewController.m */; };
-		DA6CA608155934FC00EAC673 /* NAPagedView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA606155934FC00EAC673 /* NAPagedView.h */; };
+		DA6CA608155934FC00EAC673 /* NAPagedView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA606155934FC00EAC673 /* NAPagedView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DA6CA609155934FC00EAC673 /* NAPagedView.m in Sources */ = {isa = PBXBuildFile; fileRef = DA6CA607155934FC00EAC673 /* NAPagedView.m */; };
+		DA6CA69F1559845600EAC673 /* NAPagedScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = DA6CA5F21559340200EAC673 /* NAPagedScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -102,6 +103,7 @@
 				DA6CA5FF155934BB00EAC673 /* NAPagedScrollViewController.h in Headers */,
 				DA6CA604155934D800EAC673 /* NAPagedViewController.h in Headers */,
 				DA6CA608155934FC00EAC673 /* NAPagedView.h in Headers */,
+				DA6CA69F1559845600EAC673 /* NAPagedScrollView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

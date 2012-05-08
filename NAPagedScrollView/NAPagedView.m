@@ -6,7 +6,8 @@
 //  Copyright (c) 2012 Nordaaker Ltd. All rights reserved.
 //
 
-#import "NAPagedView.h"
+#import <NAPagedScrollView/NAPagedView.h>
+#import <NAPagedScrollView/NAPagedScrollView.h>
 
 @interface NAPagedView() {
   UIColor *_userContentViewBackgroundColor;
@@ -21,20 +22,20 @@
 @synthesize index = _index;
 @synthesize reuseIdentifier = _reuseIdentifier;
 
-+ (NSString *)cellIdentifier
++ (NSString *)pageIdentifier
 {
   return NSStringFromClass(self);
 }
 
-+ (id)cellForGridView:(KKGridView *)gridView
++ (id)cellForPagedScrollView:(NAPagedScrollView *)scrollView
 {
-  NSString *cellID = [self cellIdentifier];
-  KKGridViewCell *cell = (KKGridViewCell *)[gridView dequeueReusableCellWithIdentifier:cellID];
-  if (cell == nil) {
-    cell = [[self alloc] initWithFrame:(CGRect){ .size = gridView.cellSize } reuseIdentifier:cellID];
+  NSString *pageIdentifier = [self pageIdentifier];
+  NAPagedView *page = (NAPagedView *)[scrollView dequeueReuseablePageWithIdentifier:pageIdentifier];
+  if (page == nil) {
+    page = [[self alloc] initWithFrame:scrollView.frame reuseIdentifier:pageIdentifier];
   }
   
-  return cell;
+  return page;
 }
 
 #pragma mark - Designated Initializer
@@ -105,8 +106,6 @@
   
 	if (!_backgroundView.hidden)
 		_backgroundView.frame = bounds;
-
-  
   
   [self sendSubviewToBack:_backgroundView];
   [self bringSubviewToFront:_contentView];
@@ -115,6 +114,11 @@
   _contentView.backgroundColor = _userContentViewBackgroundColor ? _userContentViewBackgroundColor : [UIColor whiteColor];
     
     _backgroundView.hidden = NO;
+}
+
+-(void)prepareForReuse
+{
+  
 }
 
 @end

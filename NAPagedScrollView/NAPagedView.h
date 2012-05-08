@@ -6,7 +6,10 @@
 //  Copyright (c) 2012 Nordaaker Ltd. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+@class NAPagedScrollView;
 
 @interface NAPagedView : UIView
 
@@ -17,7 +20,7 @@
 
 @property (nonatomic, strong) IBOutlet UIView *backgroundView; 
 @property (nonatomic, strong) IBOutlet UIView *contentView; 
-@property (nonatomic, weak) NSUInteger index;
+@property (nonatomic, assign) NSUInteger index;
 @property (nonatomic, copy) NSString *reuseIdentifier;
 
 - (void)prepareForReuse;
