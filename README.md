@@ -1,4 +1,6 @@
 NAPagedScrollView
 =================
 
-Scrollview with reusable viewcontrollers
+Scrollview with reusable pages. 
+
+Heavily inspired by [KKGridView](https://github.com/kolinkrewinkel/KKGridView).  
