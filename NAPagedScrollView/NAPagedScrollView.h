@@ -7,7 +7,42 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import <NAPagedView.h>
 
-@interface NAPagedScrollView : NSObject
+@protocol NAPagedScrollViewDataSource;
+@protocol NAPagedScrollViewDelegate;
+
+@interface NAPagedScrollView : UIScrollView
+{
+  
+}
+
+@property (nonatomic, readonly) NSUInteger numberOfPages;
+@property (nonatomic, strong) UIView *backgroundView;
+
+@property (nonatomic, unsafe_unretained) IBOutlet id <NAPagedScrollViewDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) IBOutlet id <NAPagedScrollViewDelegate> pagedViewDelegate;
+
+- (NAPagedView *)dequeueReuseablePageWithIdentifier: (NSString *)identifier;
+- (CGRect) frameForPageAtIndex:(NSUInteger)index;
+- (BOOL) isDisplayingPageForIndex:(NSUInteger)index;
+
 
 @end
+
+@protocol NAPagedScrollViewDataSource <NSObject>
+@required
+- (NSUInteger)numberOfItemsInScrollView:(NAPagedScrollView*)scrollView;
+- (NAPagedView*)scrollView:(NAPagedScrollView*)scrollView pageForItemAtIndex:(NSUInteger)index;
+@optional
+
+@end
+
+
+@protocol NAPagedScrollViewDelegate <NSObject>
+@optional
+
+@end
+
+

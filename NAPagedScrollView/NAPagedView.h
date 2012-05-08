@@ -10,4 +10,16 @@
 
 @interface NAPagedView : UIView
 
++ (NSString *)pageIdentifier;
+
++ (id)cellForPagedScrollView:(NAPagedScrollView *)scrollView;
+- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier;
+
+@property (nonatomic, strong) IBOutlet UIView *backgroundView; 
+@property (nonatomic, strong) IBOutlet UIView *contentView; 
+@property (nonatomic, weak) NSUInteger index;
+@property (nonatomic, copy) NSString *reuseIdentifier;
+
+- (void)prepareForReuse;
+
 @end
